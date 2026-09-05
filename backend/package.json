@@ -1,5 +1,12 @@
 {
   "type": "module",
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev":"cd services/auth && npm run dev && cd ../project && npm run dev && cd ../gateway && npm run dev"
+  },
   "dependencies": {
     "ioredis": "^6.0.0"
   }

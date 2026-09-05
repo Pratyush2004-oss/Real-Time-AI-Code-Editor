@@ -58,9 +58,7 @@ const getProjectList = expressAsyncHandler(async (req, res, next) => {
             await redis.set(key, JSON.stringify(projects));
         }
 
-        res.status(200).json({
-            projects
-        });
+        res.status(200).json({ projects });
     } catch (error) {
         console.log(`Error in getProjectList controller: ${error}`);
         next(error);
@@ -160,9 +158,7 @@ const getStarredProjectList = expressAsyncHandler(async (req, res, next) => {
             // save starred project list in redis
             await redis.set(key, JSON.stringify(projects));
         }
-        res.status(200).json({
-            projects
-        });
+        res.status(200).json({ projects });
     } catch (error) {
         console.log(`Error in getStarredProjectList controller: ${error}`);
         next(error);
@@ -196,7 +192,7 @@ const deleteProject = expressAsyncHandler(async (req, res, next) => {
         const key = `project-list-${userId}`;
         await redis.del(key);
         res.status(200).json({
-            message: "Project deleted successfully."
+            message: "Project deleted successfully.", project
         });
     } catch (error) {
         console.log(`Error in deleteProject controller: ${error}`);

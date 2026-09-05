@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../features/auth/store/hooks';
+import { useAuthSelector, useAuthDispatch } from '../../features/auth/store/hooks';
 import { FiChevronDown, FiLogOut } from "react-icons/fi";
 import { clearUserData } from '../../features/auth/store/user.slice';
 import { logoutService } from '../../features/auth/services/auth.api.service';
 import { queryClient } from '../../app/queryClient';
 const UserButton = () => {
-    const dispatch = useAppDispatch();
-    const { userData } = useAppSelector((state) => state.user);
+    const dispatch = useAuthDispatch();
+    const { userData } = useAuthSelector((state) => state.user);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const name = userData?.name || "Guest";
     const initials = name.split(" ").map((word) => word.charAt(0)).join("").slice(0, 2).toUpperCase();

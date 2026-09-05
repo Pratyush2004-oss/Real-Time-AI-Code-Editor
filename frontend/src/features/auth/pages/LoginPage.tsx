@@ -4,14 +4,14 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { auth, googleProvider } from "../../../../firebase";
 import { loginService } from "../services/auth.api.service";
-import { useAppDispatch } from "../store/hooks";
+import { useAuthDispatch } from "../store/hooks";
 import { setUserData } from "../store/user.slice";
 import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
     const navigate = useNavigate();
     const [isLoading, setisLoading] = useState(false);
     const queryClient = useQueryClient();
-    const dispatch = useAppDispatch();
+    const dispatch = useAuthDispatch();
     const handleLogin = async () => {
         try {
             setisLoading(true);

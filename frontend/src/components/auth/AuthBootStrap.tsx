@@ -3,12 +3,11 @@ import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Router } from '../../app.routes';
 import { getMeService } from '../../features/auth/services/auth.api.service';
-import { useAppDispatch } from '../../features/auth/store/hooks';
+import { useAuthDispatch } from '../../features/auth/store/hooks';
 import { setUserData } from '../../features/auth/store/user.slice';
-import { } from "../../features/auth/store/user.store";
 import LoadingScreen from '../shared/LoadingScreen';
 const AuthBootStrap = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useAuthDispatch();
 
     const meQuery = useQuery({
         queryKey: ['auth', 'me'],

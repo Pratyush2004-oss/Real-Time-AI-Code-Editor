@@ -11,7 +11,7 @@ import type { ProjectResponseType, ProjectType } from "../types";
 export const createProjectService = async (name: string, description: string): Promise<ProjectResponseType | string> => {
     try {
         const response = await axiosInstance.post<ProjectResponseType>("/project", { name, description });
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -28,7 +28,7 @@ export const createProjectService = async (name: string, description: string): P
 export const getProjectListService = async (): Promise<ProjectType[] | string> => {
     try {
         const response = await axiosInstance("/project/all");
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -46,7 +46,7 @@ export const getProjectListService = async (): Promise<ProjectType[] | string> =
 export const getProjectByIdService = async (projectId: string): Promise<ProjectType | string> => {
     try {
         const response = await axiosInstance.get(`/project/${projectId}`);
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -63,7 +63,7 @@ export const getProjectByIdService = async (projectId: string): Promise<ProjectT
 export const getStarredProjectListService = async (): Promise<ProjectType[] | string> => {
     try {
         const response = await axiosInstance.get("/project/starred");
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -78,10 +78,10 @@ export const getStarredProjectListService = async (): Promise<ProjectType[] | st
  * @param projectId 
  * @returns {ProjectType | string (error message)}
 */
-export const toggleProjectStarService = async (projectId: string): Promise<ProjectType | string> => {
+export const toggleProjectStarService = async (projectId: string): Promise<ProjectResponseType | string> => {
     try {
         const response = await axiosInstance.put(`/project/${projectId}/star`);
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
@@ -96,10 +96,10 @@ export const toggleProjectStarService = async (projectId: string): Promise<Proje
  * @param projectId 
  * @returns {string (error message)}
  */
-export const deleteProjectService = async (projectId: string): Promise<string> => {
+export const deleteProjectService = async (projectId: string): Promise<ProjectResponseType | string> => {
     try {
         const response = await axiosInstance.delete(`/project/${projectId}`);
-        if(response.status === 400) throw new Error(response.data.message);
+        if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
         if (error instanceof AxiosError) {
