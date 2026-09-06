@@ -20,9 +20,19 @@ const ProjectSlice = createSlice({
         setStarredProjects: (state, action: PayloadAction<ProjectType[]>) => {
             state.starredProjects = action.payload
         },
+        starProject: (state, payload: PayloadAction<ProjectType>) => {
+            const project = state.projectList.find((project) => project._id === payload.payload._id);
+            if (project) {
+                project.starred = !project.starred
+            }
+        },
+        deleteProject: (state, payload: PayloadAction<ProjectType>) => {
+            state.projectList = state.projectList.filter((project) => project._id !== payload.payload._id);
+            state.starredProjects = state.starredProjects.filter((project) => project._id !== payload.payload._id);
+        }
     }
 })
 
-export const { setProjectList, setSelectedProject, setStarredProjects } = ProjectSlice.actions;
+export const { setProjectList, setSelectedProject, setStarredProjects, starProject, deleteProject } = ProjectSlice.actions;
 
 export default ProjectSlice.reducer;

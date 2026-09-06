@@ -1,12 +1,16 @@
 import { motion } from "motion/react";
-import { FiFolder, FiStar, FiZap } from "react-icons/fi"
+import { useState } from "react";
+import { FiChevronLeft, FiChevronRight, FiFolder, FiStar, FiZap } from "react-icons/fi"
 interface SIDEBARPROPS {
     activeSession: "projects" | "starred";
     setActiveSession: React.Dispatch<React.SetStateAction<"projects" | "starred">>;
 }
 const SideBar = ({ activeSession, setActiveSession }: SIDEBARPROPS) => {
+    const [isExpanded, setisExpanded] = useState(false);
     return (
-        <div className="flex h-full w-64 shrink-0 flex-col border-r border-slate-200/70 bg-white/60 px-3 py-5 font-sans backdrop-blur-xl transition-colors duration-300 dark:border-white/6 dark:bg-white/2">
+        <div className="flex h-full md:w-64 shrink-0 flex-col border-r border-slate-200/70 bg-white/60 px-3 py-5 font-sans backdrop-blur-xl transition-colors duration-300 dark:border-white/6 dark:bg-white/2">
+            {/* expand button */}
+            <button className="absolute p-2 top-2 -right-4 border z-30 bg-zinc-300 hover:bg-zinc-400 rounded-xl md:hidden" onClick={() => setisExpanded(!isExpanded)}>{isExpanded ? <FiChevronLeft /> : <FiChevronRight />}</button>
             {/* Meun options */}
             <div className="flex flex-col gap-1">
                 <motion.div
@@ -39,7 +43,7 @@ const SideBar = ({ activeSession, setActiveSession }: SIDEBARPROPS) => {
                         whileTap={{ scale: 0.97 }}
                         className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-slate-900 py-2 text-sm font-semibold text-white shadow-sm transition-opacity duration-150 hover:opacity-90 dark:bg-white dark:text-slate-900"
                     >
-                        <FiZap fill="currentColor"/>
+                        <FiZap fill="currentColor" />
                         Upgrade Now
                     </motion.button>
                 </div>

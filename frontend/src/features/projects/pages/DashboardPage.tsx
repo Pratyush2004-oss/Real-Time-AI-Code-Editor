@@ -9,7 +9,7 @@ import CreateProjectModal from "../../../components/dashboard/CreateProjectModal
 
 const DashboardPage = () => {
   const [activeSession, setActiveSession] = useState<"projects" | "starred">("projects");
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { userData } = useAuthSelector(state => state.user);
   return (
     <div className="relative flex h-screen w-full flex-col overflow-hidden bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]">

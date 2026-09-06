@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { FiX } from "react-icons/fi";
 import type { CreateProjectInputType } from "../../features/projects/types";
+import { useCreateProjectMutation } from "../../features/projects/tanstack-query";
+import { toast } from "react-toastify";
 
 interface CreateProjectModalProps {
     isModalOpen: boolean
@@ -12,6 +14,19 @@ const CreateProjectModal = ({ setIsModalOpen }: CreateProjectModalProps) => {
         name: "",
         description: ""
     })
+    const createProjectMutation = useCreateProjectMutation();
+    const handleSubmit = () => {
+        if (!input.name) {
+            toast.error("Project name is required");
+            return
+        }
+        createProjectMutation.mutate(input, {
+            onSuccess: () => {
+                setIsModalOpen(false);
+                setinput({ name: "", description: "" });
+            }
+        })
+    }
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
@@ -83,9 +98,10 @@ const CreateProjectModal = ({ setIsModalOpen }: CreateProjectModalProps) => {
                         Cancel
                     </button>
                     <button
-                        disabled={!input.description || !input.name}
+                        onClick={handleSubmit}
+                        disabled={!input.name || createProjectMutation.isPending}
                         className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white shadow-[0_1px_o_rgba(255,255,255,0.15)_inset,0_8px_24px_-8px_rgba(0,0,0,0.4)] transition-all hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100">
-                        Create Project
+                        {createProjectMutation.isPending ? "Creating..." : "Create Project"}
                     </button>
                 </div>
             </motion.div>

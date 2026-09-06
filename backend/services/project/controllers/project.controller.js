@@ -58,7 +58,7 @@ const getProjectList = expressAsyncHandler(async (req, res, next) => {
             await redis.set(key, JSON.stringify(projects));
         }
 
-        res.status(200).json({ projects });
+        res.status(200).json(projects);
     } catch (error) {
         console.log(`Error in getProjectList controller: ${error}`);
         next(error);
@@ -121,7 +121,9 @@ const toggleProjectStarred = expressAsyncHandler(async (req, res, next) => {
         project.starred = !project.starred;
         await project.save();
         // delete starred project list from redis
-        const key = `starred-project-list-${userId}`;
+        const key = `project-list-${userId}`
+        const starredkey = `starred-project-list-${userId}`;
+        await redis.del(starredkey)
         await redis.del(key);
 
         // return response
@@ -158,7 +160,7 @@ const getStarredProjectList = expressAsyncHandler(async (req, res, next) => {
             // save starred project list in redis
             await redis.set(key, JSON.stringify(projects));
         }
-        res.status(200).json({ projects });
+        res.status(200).json(projects);
     } catch (error) {
         console.log(`Error in getStarredProjectList controller: ${error}`);
         next(error);
@@ -190,6 +192,11 @@ const deleteProject = expressAsyncHandler(async (req, res, next) => {
         await project.deleteOne();
         // delete project list from redis
         const key = `project-list-${userId}`;
+        // if deleted project is a starred project then also delete starred projects from the cache
+        if (project.starred) {
+            const starredkey = `starred-project-list-${userId}`;
+            await redis.del(starredkey)
+        }
         await redis.del(key);
         res.status(200).json({
             message: "Project deleted successfully.", project

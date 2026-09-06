@@ -80,9 +80,9 @@ export const useGetSingleProjectInformationQuery = (projectId: string): UseQuery
     })
 }
 
-export const useToggleStarProjectMutation = (projectId: string): UseMutationResult<ProjectResponseType, Error, void> => {
-    return useMutation<ProjectResponseType, Error>({
-        mutationFn: async () => {
+export const useToggleStarProjectMutation = (): UseMutationResult<ProjectResponseType, Error, string> => {
+    return useMutation<ProjectResponseType, Error, string>({
+        mutationFn: async (projectId) => {
             const response = await toggleProjectStarService(projectId);
             if (typeof response === "string") throw new Error(response);
             return response;
@@ -93,17 +93,19 @@ export const useToggleStarProjectMutation = (projectId: string): UseMutationResu
         onError: (error: Error) => {
             toast.error(error.message);
         },
-        onSettled: () => {
+        onSettled: (_data, _error, projectId: string) => {
             queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
-            queryClient.invalidateQueries({ queryKey: signleProjectInfoKey(projectId) });
+            queryClient.invalidateQueries({
+                queryKey: signleProjectInfoKey(projectId),
+            });
+            queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
         }
     })
-
 }
 
-export const useDeleteProjectMutation = (projectId: string): UseMutationResult<ProjectResponseType, Error, void> => {
-    return useMutation<ProjectResponseType, Error, void>({
-        mutationFn: async () => {
+export const useDeleteProjectMutation = (): UseMutationResult<ProjectResponseType, Error, string> => {
+    return useMutation<ProjectResponseType, Error, string>({
+        mutationFn: async (projectId: string) => {
             const response = await deleteProjectService(projectId);
             if (typeof response === "string") throw new Error(response);
             return response;
@@ -117,9 +119,6 @@ export const useDeleteProjectMutation = (projectId: string): UseMutationResult<P
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
             queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
-            queryClient.invalidateQueries({
-                queryKey: signleProjectInfoKey(projectId),
-            });
         }
     })
 }

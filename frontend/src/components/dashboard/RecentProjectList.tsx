@@ -3,6 +3,7 @@ import { useProjectDispatch, useProjectSelector } from "../../features/projects/
 import { useGetProjectListQuery } from "../../features/projects/tanstack-query";
 import { setProjectList } from "../../features/projects/store/project.slice";
 import { FiFolder } from "react-icons/fi";
+import ProjectCard from "./ProjectCard";
 
 interface RecentProjectListProps {
 
@@ -38,12 +39,9 @@ const RecentProjectList = ({ }: RecentProjectListProps) => {
             )}
 
             {projects.length > 0 && (
-                <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3 bg-red-500 p-8">
+                <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {projects.map((project) => (
-                        <div key={project._id}>
-                            <h3>{project.name}</h3>
-                            <p>{project.description}</p>
-                        </div>
+                        <ProjectCard key={project._id} project={project} />
                     ))}
                 </div>
             )}

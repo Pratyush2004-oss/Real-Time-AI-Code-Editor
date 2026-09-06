@@ -80,7 +80,7 @@ export const getStarredProjectListService = async (): Promise<ProjectType[] | st
 */
 export const toggleProjectStarService = async (projectId: string): Promise<ProjectResponseType | string> => {
     try {
-        const response = await axiosInstance.put(`/project/${projectId}/star`);
+        const response = await axiosInstance.patch(`/project/starred/${projectId}`);
         if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
@@ -98,7 +98,7 @@ export const toggleProjectStarService = async (projectId: string): Promise<Proje
  */
 export const deleteProjectService = async (projectId: string): Promise<ProjectResponseType | string> => {
     try {
-        const response = await axiosInstance.delete(`/project/${projectId}`);
+        const response = await axiosInstance.delete(`/project/single/${projectId}`);
         if (response.status === 400) throw new Error(response.data.message);
         return response.data;
     } catch (error: any) {
