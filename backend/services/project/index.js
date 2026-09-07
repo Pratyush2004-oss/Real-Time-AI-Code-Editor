@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", projectRouter);
-app.listen(process.env.AUTH_PORT, () => {
+app.listen(process.env.PROJECT_PORT, () => {
     connectDB();
-    console.log(`Project service is running on port ${process.env.AUTH_PORT}`);
+    console.log(`Project service is running on port ${process.env.PROJECT_PORT}`);
 });

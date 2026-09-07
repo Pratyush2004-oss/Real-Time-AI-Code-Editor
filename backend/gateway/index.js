@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 // auth service proxy
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL));
 app.use("/api/project", isAuth, setProxyHeader(process.env.PROJECT_SERVICE_URL));
+app.use("/api/file", isAuth, setProxyHeader(process.env.FILE_SERVICE_URL));
 app.get("/api/me", isAuth, getCurrentUser);
 
 app.listen(PORT, () => {
