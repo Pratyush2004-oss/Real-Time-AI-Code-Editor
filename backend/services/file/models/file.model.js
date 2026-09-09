@@ -35,7 +35,7 @@ const FileSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true
+        default: ""
     },
     size: {
         type: Number,

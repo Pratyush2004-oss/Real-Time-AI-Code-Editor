@@ -1,9 +1,10 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { FiX } from "react-icons/fi";
-import type { CreateProjectInputType } from "../../features/projects/types";
-import { useCreateProjectMutation } from "../../features/projects/tanstack-query";
 import { toast } from "react-toastify";
+import { useCreateRootFolderMutation } from "../../features/files/tanstack-query";
+import { useCreateProjectMutation } from "../../features/projects/tanstack-query";
+import type { CreateProjectInputType } from "../../features/projects/types";
 
 interface CreateProjectModalProps {
     isModalOpen: boolean
@@ -15,15 +16,20 @@ const CreateProjectModal = ({ setIsModalOpen }: CreateProjectModalProps) => {
         description: ""
     })
     const createProjectMutation = useCreateProjectMutation();
+    const createRootFolderMutation = useCreateRootFolderMutation();
     const handleSubmit = () => {
         if (!input.name) {
             toast.error("Project name is required");
             return
         }
         createProjectMutation.mutate(input, {
-            onSuccess: () => {
-                setIsModalOpen(false);
-                setinput({ name: "", description: "" });
+            onSuccess: (data) => {
+                createRootFolderMutation.mutate({ folderName: data.project.name.toLowerCase().replaceAll(" ", "-"), projectId: data.project._id }, {
+                    onSuccess: () => {
+                        setIsModalOpen(false);
+                        setinput({ name: "", description: "" });
+                    }
+                });
             }
         })
     }

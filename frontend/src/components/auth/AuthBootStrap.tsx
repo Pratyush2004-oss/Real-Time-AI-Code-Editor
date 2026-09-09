@@ -8,7 +8,6 @@ import { setUserData } from '../../features/auth/store/user.slice';
 import LoadingScreen from '../shared/LoadingScreen';
 const AuthBootStrap = () => {
     const dispatch = useAuthDispatch();
-
     const meQuery = useQuery({
         queryKey: ['auth', 'me'],
         queryFn: getMeService,
@@ -27,4 +26,4 @@ const AuthBootStrap = () => {
     )
 }
 
-export default AuthBootStrap
+export default AuthBootStrap;

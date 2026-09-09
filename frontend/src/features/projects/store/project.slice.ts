@@ -4,7 +4,7 @@ import type { ProjectState, ProjectType } from "../types";
 const initialState: ProjectState = {
     projectList: [],
     starredProjects: [],
-    selectedProject: null
+    currentProject: null
 }
 
 const ProjectSlice = createSlice({
@@ -14,8 +14,8 @@ const ProjectSlice = createSlice({
         setProjectList: (state, action: PayloadAction<ProjectType[]>) => {
             state.projectList = action.payload
         },
-        setSelectedProject: (state, action: PayloadAction<ProjectType>) => {
-            state.selectedProject = action.payload
+        setCurrentProject: (state, action: PayloadAction<ProjectType>) => {
+            state.currentProject = action.payload
         },
         setStarredProjects: (state, action: PayloadAction<ProjectType[]>) => {
             state.starredProjects = action.payload
@@ -33,6 +33,6 @@ const ProjectSlice = createSlice({
     }
 })
 
-export const { setProjectList, setSelectedProject, setStarredProjects, starProject, deleteProject } = ProjectSlice.actions;
+export const { setProjectList, setCurrentProject, setStarredProjects, starProject, deleteProject } = ProjectSlice.actions;
 
 export default ProjectSlice.reducer;

@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { useState } from 'react'
 import { FiStar, FiTrash2 } from 'react-icons/fi'
+import { useNavigate } from "react-router-dom"
 import { useProjectDispatch } from '../../features/projects/store/hooks'
 import { deleteProject, starProject } from '../../features/projects/store/project.slice'
 import { useDeleteProjectMutation, useToggleStarProjectMutation } from '../../features/projects/tanstack-query'
@@ -10,6 +11,7 @@ interface ProjectCardProps {
     project: ProjectType
 }
 const ProjectCard = ({ project }: ProjectCardProps) => {
+    const navigate = useNavigate();
     const toggleStarMutation = useToggleStarProjectMutation();
     const deleteProjectMutation = useDeleteProjectMutation();
     const [isconfirmDelete, setisconfirmDelete] = useState(false);
@@ -31,6 +33,12 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             }
         });
     }
+
+    // handle click
+    const handleClickProject = (project: ProjectType) => {
+        navigate(`/project/${project._id}`);
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -38,13 +46,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             exit={{ opacity: 0, scale: 0.97 }}
             whileHover={{ y: -3 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
+            onClick={() => handleClickProject(project)}
             className='group relative cursor-pointer rounded-2xl border border-black/6 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] dark:border-white/7 dark:bg-white/3 dark:shadow-none dark:hover:border-white/14 dark:hover:bg-white/4.5'
         >
             <motion.button
                 whileTap={{ scale: 0.9 }}
                 disabled={toggleStarMutation.isPending}
                 onClick={() => handleToggleStar(project._id)}
-                className={`absolute right-4 top-4 rounded-md p-1 transition-opacity hover:text-amber-400 ${isStarred ? "opacity-100 text-amber-400" : "opacity-0 text-zinc-300 group-hover:opacity-100 dark:text-zinc-600"} ${toggleStarMutation.isPending ? "cursor-wait opacity-60" : ""}`}
+                className={`absolute z-50 right-4 top-4 rounded-md p-1 transition-opacity hover:text-amber-400 ${isStarred ? "opacity-100 text-amber-400" : "opacity-0 text-zinc-300 group-hover:opacity-100 dark:text-zinc-600"} ${toggleStarMutation.isPending ? "cursor-wait opacity-60" : ""}`}
             >
                 <FiStar strokeWidth={2} size={20} className={`${isStarred ? "fill-amber-400" : "text-amber-400"}`} />
             </motion.button>
@@ -61,7 +70,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className='flex items-center gap-2'
+                        className='flex items-center gap-2 z-50'
                     >
                         <button
                             onClick={() => setisconfirmDelete(false)}
@@ -75,7 +84,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                         >Confirm</button>
                     </motion.div>
                 ) : (
-                    <motion.button className='flex items-center gap-1 rounded-md px-1.5 text-xs text-zinc-300 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400'
+                    <motion.button className='flex items-center gap-1 rounded-md px-1.5 text-xs text-zinc-300 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400 z-50'
                         onClick={() => setisconfirmDelete(true)}
                     >
                         <FiTrash2 size={13} />

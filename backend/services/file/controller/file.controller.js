@@ -40,7 +40,7 @@ export const createRootFolderController = expressAsyncHandler(async (req, res, n
         })
 
         res.status(201).json({
-            message: "Root folder created successfully.", rootFolder
+            message: "Root folder created successfully.", file: rootFolder
         });
     } catch (error) {
         console.log(`Error in createRootFolder controller: ${error}`);
@@ -87,7 +87,7 @@ export const createFolderController = expressAsyncHandler(async (req, res, next)
         })
 
         res.status(201).json({
-            message: "Root folder created successfully.", folder
+            message: "Folder created successfully.", file: folder
         });
     } catch (error) {
         console.log(`Error in createFolder controller: ${error}`);
@@ -125,7 +125,7 @@ export const createFileController = expressAsyncHandler(async (req, res, next) =
                 message: "File already exists."
             });
         }
-        const extension = name.includes(".") ? name.split(".").pop() : "";
+        const extension = fileName.includes(".") ? fileName.split(".").pop() : "";
         const file = await FileModel.create({
             owner: userId,
             name: fileName,
@@ -139,7 +139,7 @@ export const createFileController = expressAsyncHandler(async (req, res, next) =
         })
 
         res.status(201).json({
-            message: "Root folder created successfully.", file
+            message: "File created successfully.", file
         });
     } catch (error) {
         console.log(`Error in createFile controller: ${error}`);
@@ -173,7 +173,7 @@ export const updateFileController = expressAsyncHandler(async (req, res, next) =
             });
         }
         if (fileName) {
-            extension = fileName.includes(".") ? fileName.split(".").pop() : "";
+            let extension = fileName.includes(".") ? fileName.split(".").pop() : "";
             existingFile.name = fileName;
             existingFile.extension = extension;
         }
@@ -183,7 +183,7 @@ export const updateFileController = expressAsyncHandler(async (req, res, next) =
         }
         await existingFile.save();
         res.status(200).json({
-            message: "File updated successfully.", existingFile
+            message: "File updated successfully.", file: existingFile
         });
 
     } catch (error) {
@@ -211,7 +211,7 @@ export const deleteFileController = expressAsyncHandler(async (req, res, next) =
         existingFile.isDeleted = true;
         await existingFile.save();
         res.status(200).json({
-            message: "File deleted successfully.", existingFile
+            message: "File deleted successfully.", file: existingFile
         });
     } catch (error) {
         console.log(`Error in deleteFileController: ${error}`);
@@ -270,10 +270,10 @@ export const getFileTreeController = expressAsyncHandler(async (req, res, next) 
             owner: userId,
             isDeleted: false
         }).sort({
-            name: 1,
-            type: -1
+            type: -1,
+            name: 1
         });
-        const tree = await buildTree(files);
+        const tree = buildTree(files);
 
         res.status(200).json(tree);
     } catch (error) {

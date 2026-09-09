@@ -20,7 +20,7 @@ const LoginPage = () => {
             const res = await loginService(token);
             dispatch(setUserData(res.user));
             queryClient.setQueryData(['auth', 'me'], res.user);
-            navigate("/dashboard", { replace: true });
+            navigate("/", { replace: true });
         } finally {
             setisLoading(false);
         }

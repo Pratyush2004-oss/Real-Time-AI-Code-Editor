@@ -45,9 +45,9 @@ export const getProjectListService = async (): Promise<ProjectType[] | string> =
  */
 export const getProjectByIdService = async (projectId: string): Promise<ProjectType | string> => {
     try {
-        const response = await axiosInstance.get(`/project/${projectId}`);
+        const response = await axiosInstance.get<ProjectResponseType>(`/project/single/${projectId}`);
         if (response.status === 400) throw new Error(response.data.message);
-        return response.data;
+        return Array.isArray(response.data.project) ? response.data.project[0] : response.data.project;
     } catch (error: any) {
         if (error instanceof AxiosError) {
             return error?.response?.data.message;

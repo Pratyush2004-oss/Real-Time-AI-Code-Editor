@@ -19,7 +19,7 @@ FileRouter.post('/root-folder', createRootFolderController);
  * @route /folder
  * @body {projectId, folderName, parentId}
  */
-FileRouter.post("/folder", createFolderController);
+FileRouter.post("/create-folder", createFolderController);
 
 /**
  * @createFile
@@ -28,7 +28,7 @@ FileRouter.post("/folder", createFolderController);
  * @route /file
  * @body {projectId, fileName, parentId, content = "", language = "plaintext"}
  */
-FileRouter.post("/file", createFileController);
+FileRouter.post("/create-file", createFileController);
 
 /**
  * @updateFile
@@ -38,7 +38,7 @@ FileRouter.post("/file", createFileController);
  * @params {fileId}
  * @body {fileName, content}
  */
-FileRouter.patch("/update/:fileId", updateFileController);
+FileRouter.patch("/update-file/:fileId", updateFileController);
 
 /**
  * @deleteFile
@@ -47,7 +47,7 @@ FileRouter.patch("/update/:fileId", updateFileController);
  * @route /delete/:fileId
  * @params {fileId}
  */
-FileRouter.delete("/:fileId", deleteFileController);
+FileRouter.delete("/delete-file/:fileId", deleteFileController);
 
 /**
  * @getFile

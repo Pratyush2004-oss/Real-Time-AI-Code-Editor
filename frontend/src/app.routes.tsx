@@ -3,6 +3,7 @@ import LoginPage from "./features/auth/pages/LoginPage";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import DashboardPage from "./features/projects/pages/DashboardPage";
 import PublicRoute from "./components/shared/PublicRoute";
+import ProjectPage from "./features/projects/pages/ProjectPage";
 
 const RootLayout = () => (
     <>
@@ -21,6 +22,10 @@ export const Router = createBrowserRouter([
                         index: true,
                         element: <DashboardPage />
                     },
+                    {
+                        path: "/project/:projectId",
+                        element: <ProjectPage />
+                    }
                 ]
             },
             {

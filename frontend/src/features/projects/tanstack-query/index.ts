@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { queryClient } from "../../../app/queryClient";
 import { createProjectService, deleteProjectService, getProjectByIdService, getProjectListService, getStarredProjectListService, toggleProjectStarService } from "../services/project.api.service";
 import type { CreateProjectInputType, ProjectResponseType, ProjectType } from "../types";
+import { useCreateRootFolderMutation } from "../../files/tanstack-query";
 
 const ProjectSessionKeys = ["project", "session"] as const;
 const StarredProjectKeys = ["project", "starred"] as const;
@@ -31,6 +32,11 @@ export const useCreateProjectMutation = (): UseMutationResult<ProjectResponseTyp
     })
 }
 
+/**
+ * @useGetProjectListQuery
+ * @description get project list
+ * @returns 
+ */
 export const useGetProjectListQuery = (): UseQueryResult<ProjectType[], Error> => {
     const cacheData = queryClient.getQueryData<ProjectType[]>(ProjectSessionKeys);
     return useQuery<ProjectType[], Error>({
@@ -47,6 +53,11 @@ export const useGetProjectListQuery = (): UseQueryResult<ProjectType[], Error> =
     })
 }
 
+/**
+ * @useGetStarredProjectListQuery
+ * @description get starred project list
+ * @returns 
+ */
 export const useGetStarredProjectListQuery = (): UseQueryResult<ProjectType[], Error> => {
     const cacheData = queryClient.getQueryData<ProjectType[]>(StarredProjectKeys);
     return useQuery({
@@ -63,6 +74,12 @@ export const useGetStarredProjectListQuery = (): UseQueryResult<ProjectType[], E
     })
 }
 
+/**
+ * @useGetSingleProjectInformationQuery
+ * @description get single project information
+ * @param projectId 
+ * @returns 
+ */
 export const useGetSingleProjectInformationQuery = (projectId: string): UseQueryResult<ProjectType, Error> => {
     const cacheData = queryClient.getQueryData<ProjectType>(signleProjectInfoKey(projectId));
     return useQuery<ProjectType, Error>({
@@ -80,6 +97,11 @@ export const useGetSingleProjectInformationQuery = (projectId: string): UseQuery
     })
 }
 
+/**
+ * @useToggleStarProjectMutation
+ * @description toggle star project
+ * @returns 
+ */
 export const useToggleStarProjectMutation = (): UseMutationResult<ProjectResponseType, Error, string> => {
     return useMutation<ProjectResponseType, Error, string>({
         mutationFn: async (projectId) => {
@@ -103,6 +125,11 @@ export const useToggleStarProjectMutation = (): UseMutationResult<ProjectRespons
     })
 }
 
+/**
+ * @useDeleteProjectMutation
+ * @description delete project
+ * @returns 
+ */
 export const useDeleteProjectMutation = (): UseMutationResult<ProjectResponseType, Error, string> => {
     return useMutation<ProjectResponseType, Error, string>({
         mutationFn: async (projectId: string) => {
