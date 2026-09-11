@@ -1,4 +1,4 @@
-import { Code2, Eye, Maximize, Minimize } from "lucide-react";
+import { Code2, Eye, Folder, Maximize, Minimize, Sparkles, TerminalIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
@@ -14,6 +14,9 @@ import { useGetSingleProjectInformationQuery } from "../tanstack-query";
 import { useFileDispatch, useFileSelector } from "../../files/store/hooks";
 import { setIsPreviewFullScreen, setShowPreview } from "../../files/store/file.slice";
 import { useGetFileTreeQuery } from "../../files/tanstack-query";
+import FullScreenPreview from "../../../components/project/FullScreenPreview";
+import Terminal from "../../../components/project/Editor/Terminal";
+import AIChatSection from "../../../components/project/Editor/AIChatSection";
 
 const ProjectPage = () => {
   const params = useParams();
@@ -55,15 +58,16 @@ const ProjectPage = () => {
           />
         </div>
 
+        {/* Explorer */}
         <div className={`${mobilePanel === "explorer" ? "flex" : "hidden"} w-full md:flex md:w-auto`}>
           <AnimatePresence initial={false}>
-            {showExplorer && <Explorer projectId={projectId!} fileTree={fileTree!} />}
+            {showExplorer || mobilePanel === "explorer" && <Explorer projectId={projectId!} fileTree={fileTree!} />}
           </AnimatePresence>
         </div>
 
         {/* Editor */}
         <div className={`${mobilePanel === "editor" ? "flex" : "hidden"} relative w-full min-w-0 flex-1 flex-col overflow-hidden border-x border-white/5 md:flex`}>
-          <div className="pointer-events-none absolute right-2 top-2 z-40 flex items-center gap-1.5 sm:right-4 sm:top-3 sm:gap-2">
+          <div className="pointer-events-none z-110 absolute right-2 top-2 flex items-center gap-1.5 sm:right-4 sm:top-3 sm:gap-2">
             {showPreview && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -116,7 +120,55 @@ const ProjectPage = () => {
               !showPreview ? <Editor /> : <Preview tree={fileTree!} />
             }
           </div>
+          {/* Full screen preview */}
+          <AnimatePresence>
+            {isPreviewFullScreen && showPreview && <FullScreenPreview tree={fileTree!} />}
+          </AnimatePresence>
+          {/* Terminal Section */}
+          <AnimatePresence>
+            {showTerminal && <Terminal projectId={projectId!} setShowTerminal={setShowTerminal} />}
+          </AnimatePresence>
         </div>
+
+        {/* AI Chat section */}
+        <div className={`${mobilePanel === "aichat" ? "flex" : "hidden"} w-full md:flex md:w-auto`}>
+          <AnimatePresence initial={false}>
+            {showAichat && <AIChatSection projectId={projectId!} />}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* bottom buttons */}
+      <div className="flex items-center justify-around border-t border-white/6 bg-[#0f0f12] py-2 md:hidden">
+        <button
+          title="Explorer"
+          className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold transition-colors ${mobilePanel === "explorer" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+          onClick={() => setMobilePanel("explorer")}>
+          <Folder size={14} className="relative" /> <span className="relative hidden sm:inline">Explorer</span>
+        </button>
+        <button
+          title="Editor"
+          className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold transition-colors ${mobilePanel === "editor" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+          onClick={() => setMobilePanel("editor")}>
+          <Code2 size={14} className="relative" /> <span className="relative hidden sm:inline">Editor</span>
+        </button>
+        <button
+          className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold transition-colors ${mobilePanel === "terminal" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+          title="Terminal"
+          onClick={() => {
+            setShowTerminal(v => !v)
+          }}>
+          <TerminalIcon size={14} className="relative" /> <span className="relative hidden sm:inline">Terminal</span>
+        </button>
+        <button
+          title="AI Chat"
+          className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold transition-colors ${mobilePanel === "aichat" ? "text-white" : "text-zinc-500 hover:text-zinc-300"}`}
+          onClick={() => {
+            setShowAichat(true)
+            setMobilePanel("aichat")
+          }}>
+          <Sparkles size={14} className="relative" /> <span className="relative hidden sm:inline">AI Chat</span>
+        </button>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler"
 import FileModel from "../models/file.model.js"
 import { buildTree } from "../utils/buildTree.js";
+import { extensionToLanguage } from "../utils/extensionToLanguage.js";
 /**
  * @createRootFoldercontroller
  * @description create root folder
@@ -126,6 +127,7 @@ export const createFileController = expressAsyncHandler(async (req, res, next) =
             });
         }
         const extension = fileName.includes(".") ? fileName.split(".").pop() : "";
+        const lang = extensionToLanguage[extension];
         const file = await FileModel.create({
             owner: userId,
             name: fileName,
@@ -135,7 +137,7 @@ export const createFileController = expressAsyncHandler(async (req, res, next) =
             extension,
             size: content.length,
             content,
-            language: language || extension
+            language: lang
         })
 
         res.status(201).json({
@@ -176,7 +178,7 @@ export const updateFileController = expressAsyncHandler(async (req, res, next) =
             let extension = fileName.includes(".") ? fileName.split(".").pop() : "";
             existingFile.name = fileName;
             existingFile.extension = extension;
-            existingFile.language = extension
+            existingFile.language = extensionToLanguage[extension];
         }
         if (content !== undefined) {
             existingFile.content = content;

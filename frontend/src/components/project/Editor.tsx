@@ -5,6 +5,7 @@ import { useUpdateFileMutation } from "../../features/files/tanstack-query";
 import FileTabBar from "./Editor/FileTabBar";
 import SaveFileBar from "./Editor/SaveFileBar";
 import MonacoEditor from "@monaco-editor/react";
+import EmptyEditorState from "./Editor/EmptyEditorState";
 const Editor = () => {
   const [code, setCode] = useState("");
   const { activeTab } = useFileSelector(state => state.fileOperations);
@@ -43,7 +44,7 @@ const Editor = () => {
           <MonacoEditor
             height={"100%"}
             theme="vs-dark"
-            language={activeTab?.language}
+            language={activeTab?.language || "plaintext"}
             value={code || activeTab?.content || ""}
             onChange={(value) => {
               if (!value) return;
@@ -59,7 +60,7 @@ const Editor = () => {
             }}
           />
         ) : (
-          <></>
+          <EmptyEditorState />
         )}
       </div>
 

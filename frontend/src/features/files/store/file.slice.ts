@@ -26,8 +26,10 @@ const FileOperationSlice = createSlice({
         setShowPreview: (state, action: PayloadAction<boolean>) => { state.showPreview = action.payload },
         setIsPreviewFullScreen: (state, action: PayloadAction<boolean>) => { state.isPreviewFullScreen = action.payload },
         removeFileFromTab: (state, action: PayloadAction<FileType>) => {
-            if(state.activeTab?._id === action.payload._id) state.activeTab = null
             state.openTabs = state.openTabs.filter((tab) => tab._id !== action.payload._id);
+            if (state.activeTab?._id === action.payload._id) {
+                state.openTabs.length === 0 ? state.activeTab = null : state.activeTab = state.openTabs[state.openTabs.length - 1];
+            }
         },
         updateActiveTabContent: (state, action: PayloadAction<FileType>) => {
             state.activeTab = action.payload
