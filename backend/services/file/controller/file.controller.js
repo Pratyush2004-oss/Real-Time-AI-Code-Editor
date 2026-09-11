@@ -135,7 +135,7 @@ export const createFileController = expressAsyncHandler(async (req, res, next) =
             extension,
             size: content.length,
             content,
-            language
+            language: language || extension
         })
 
         res.status(201).json({
@@ -176,6 +176,7 @@ export const updateFileController = expressAsyncHandler(async (req, res, next) =
             let extension = fileName.includes(".") ? fileName.split(".").pop() : "";
             existingFile.name = fileName;
             existingFile.extension = extension;
+            existingFile.language = extension
         }
         if (content !== undefined) {
             existingFile.content = content;

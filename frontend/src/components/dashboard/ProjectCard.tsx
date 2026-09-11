@@ -52,7 +52,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <motion.button
                 whileTap={{ scale: 0.9 }}
                 disabled={toggleStarMutation.isPending}
-                onClick={() => handleToggleStar(project._id)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleToggleStar(project._id)
+                }}
                 className={`absolute z-50 right-4 top-4 rounded-md p-1 transition-opacity hover:text-amber-400 ${isStarred ? "opacity-100 text-amber-400" : "opacity-0 text-zinc-300 group-hover:opacity-100 dark:text-zinc-600"} ${toggleStarMutation.isPending ? "cursor-wait opacity-60" : ""}`}
             >
                 <FiStar strokeWidth={2} size={20} className={`${isStarred ? "fill-amber-400" : "text-amber-400"}`} />
@@ -73,19 +76,30 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                         className='flex items-center gap-2 z-50'
                     >
                         <button
-                            onClick={() => setisconfirmDelete(false)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setisconfirmDelete(false)
+                            }
+                            }
                             className='rounded-md px-2 py-1 text-xs text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300'
                             disabled={deleteProjectMutation.isPending}
                         >Cancel</button>
                         <button
-                            onClick={() => handleDelete(project._id)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(project._id)
+                            }}
                             className='rounded-md bg-red-500/10 py-1 px-2 text-xs font-medium text-red-500 hover:bg-red-500/20 dark:text-red-400 disabled:cursor-wait disabled:opacity-50'
                             disabled={deleteProjectMutation.isPending}
                         >Confirm</button>
                     </motion.div>
                 ) : (
                     <motion.button className='flex items-center gap-1 rounded-md px-1.5 text-xs text-zinc-300 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400 z-50'
-                        onClick={() => setisconfirmDelete(true)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setisconfirmDelete(true)
+                        }
+                        }
                     >
                         <FiTrash2 size={13} />
                     </motion.button>

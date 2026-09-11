@@ -3,10 +3,10 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { useFileDispatch, useFileSelector } from "../../features/files/store/hooks";
 import { useCreateFileMutation, useCreateFolderMutation, useDeleteFileMutation, useUpdateFileMutation } from "../../features/files/tanstack-query";
-import type { FileTreeType, RightClickMenuType } from "../../features/files/types";
+import type { FileTreeType, FileType, RightClickMenuType } from "../../features/files/types";
 import { getFileIcon, getFolderColor } from "../../utils/customization";
 import RightClickMenu from "./RightClickMenu";
-import { setIsAddOpen, setIsDeleteOpen, setRename } from "../../features/files/store/file.slice";
+import { setActiveTab, setIsAddOpen, setIsDeleteOpen, setRename } from "../../features/files/store/file.slice";
 import DeleteDialogBox from "./DeleteDialogBox";
 interface FolderProps {
   projectId: string;
@@ -42,6 +42,11 @@ const Folder = ({ node, projectId, tree }: FolderProps) => {
   // handle Open Delete Dialog
   const handleOpenDeleteDialog = () => {
     dispatch(setIsDeleteOpen({ file: node }));
+  }
+
+  // handle Open File
+  const handleOpenFile = (file: FileType) => {
+    dispatch(setActiveTab(file));
   }
 
   // handle Create folder 
@@ -89,7 +94,7 @@ const Folder = ({ node, projectId, tree }: FolderProps) => {
   }
 
   if (node.type === "file") return (
-    <div className="relative">
+    <div className="relative" onClick={() => handleOpenFile(node)}>
       {/* file name and icon section */}
       <motion.div
         whileHover={{ x: 2 }}

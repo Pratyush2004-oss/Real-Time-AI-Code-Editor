@@ -87,5 +87,9 @@ export type DeleteType = {
 export type FileState = {
     rename: RenameType,
     isAddOpen: isAddOpenType,
-    isDeleteOpen: DeleteType
+    isDeleteOpen: DeleteType,
+    openTabs: FileType[],
+    activeTab: FileType | null,
+    showPreview: boolean,
+    isPreviewFullScreen: boolean
 }

@@ -1,13 +1,15 @@
 import { motion } from "motion/react";
 import { FiCode, FiEye } from "react-icons/fi";
 import { useProjectSelector } from "../../features/projects/store/hooks";
+import { useFileDispatch, useFileSelector } from "../../features/files/store/hooks";
+import { setShowPreview } from "../../features/files/store/file.slice";
 interface TopBarProps {
-    showPreview: boolean
-    setShowPreview: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TopBar = ({ setShowPreview, showPreview }: TopBarProps) => {
+const TopBar = ({ }: TopBarProps) => {
     const { currentProject } = useProjectSelector(state => state.project);
+    const dispatch = useFileDispatch();
+    const { showPreview } = useFileSelector(state => state.fileOperations);
     return (
         <div className="relative flex h-12 items-center justify-between border-b border-white/6 bg-[#111113]/90 px-4 backdrop-blur-xl">
             {/* Left section */}
@@ -30,7 +32,7 @@ const TopBar = ({ setShowPreview, showPreview }: TopBarProps) => {
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowPreview?.((v) => !v)}
+                    onClick={() => dispatch(setShowPreview(!showPreview))}
                     title={showPreview ? "Show Editor" : "Show Preview"}
                     className={`relative flex items-center justify-center rounded-lg p-2 transition-colors ${showPreview ? "text-sky-400" : "text-zinc-400 hover:text-zinc-200"
                         }`}

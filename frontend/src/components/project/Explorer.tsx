@@ -1,12 +1,13 @@
+import { FolderTree, RefreshCcw } from "lucide-react";
 import { motion } from "motion/react";
 import { useGetFileTreeQuery } from "../../features/files/tanstack-query";
-import { FolderTree, RefreshCcw } from "lucide-react";
 import Folder from "./Folder";
+import type { FileTreeType } from "../../features/files/types";
 interface ExplorerProps {
   projectId: string,
+  fileTree: FileTreeType[]
 }
-const Explorer = ({ projectId }: ExplorerProps) => {
-  const { data: fileTree, isLoading, isError } = useGetFileTreeQuery(projectId!);
+const Explorer = ({ projectId, fileTree }: ExplorerProps) => {
 
   return (
     <motion.div
