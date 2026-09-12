@@ -10,6 +10,7 @@
     "dev:project": "cd services/project && npm run dev",
     "dev:file": "cd services/file && npm run dev",
     "dev:gateway": "cd gateway && npm run dev",
+    "dev:ai": "cd services/ai && npm run dev",
     "clear-cache": "node shared/redis/clearCache.js"
   },
   "dependencies": {
