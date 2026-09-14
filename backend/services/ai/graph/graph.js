@@ -469,7 +469,7 @@ export const graph = ({ projectId, userId }) => {
             ...recentMessages
         ]
 
-        const response = await model(messages);
+        const response = await model.invoke(messages);
         return {
             messages: [
                 response

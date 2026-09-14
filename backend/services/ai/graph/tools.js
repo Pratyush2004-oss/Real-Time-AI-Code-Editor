@@ -1,6 +1,6 @@
-import { tool, tool } from "@langchain/core/tools";
+import { tool } from "@langchain/core/tools";
 import { createFile, createFolder, deleteFile, getFile, getFileTree, updateFile } from "../utils/fetchFileAPIs.js";
-import z from "zod";
+import { z } from "zod";
 
 const compactTree = (items = []) => {
     return items.map((item) => ({
@@ -126,7 +126,7 @@ export const fileTools = ({ projectId, userId }) => {
         `,
         schema: z.object({
             folderName: z.string(),
-            parentId: z.string().nullable
+            parentId: z.string().nullable()
         })
     })
 
@@ -218,6 +218,9 @@ export const fileTools = ({ projectId, userId }) => {
             operation: "file_deleted",
             file: {
                 _id: file._id,
+                name: file.name,
+                type: file.type,
+                parentId: file.parentId
             }
         })
     }, {

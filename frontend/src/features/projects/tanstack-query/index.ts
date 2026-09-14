@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { queryClient } from "../../../app/queryClient";
 import { createProjectService, deleteProjectService, getProjectByIdService, getProjectListService, getStarredProjectListService, toggleProjectStarService } from "../services/project.api.service";
 import type { CreateProjectInputType, ProjectResponseType, ProjectType } from "../types";
-import { useCreateRootFolderMutation } from "../../files/tanstack-query";
 
 const ProjectSessionKeys = ["project", "session"] as const;
 const StarredProjectKeys = ["project", "starred"] as const;
@@ -22,12 +21,10 @@ export const useCreateProjectMutation = (): UseMutationResult<ProjectResponseTyp
         },
         onSuccess: (data: ProjectResponseType) => {
             toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys })
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys })
         }
     })
 }
@@ -111,16 +108,14 @@ export const useToggleStarProjectMutation = (): UseMutationResult<ProjectRespons
         },
         onSuccess: (data: ProjectResponseType) => {
             toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
+            queryClient.invalidateQueries({
+                queryKey: signleProjectInfoKey(data.project._id),
+            });
+            queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: (_data, _error, projectId: string) => {
-            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
-            queryClient.invalidateQueries({
-                queryKey: signleProjectInfoKey(projectId),
-            });
-            queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
         }
     })
 }
@@ -139,13 +134,11 @@ export const useDeleteProjectMutation = (): UseMutationResult<ProjectResponseTyp
         },
         onSuccess: (data: ProjectResponseType) => {
             toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
+            queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ProjectSessionKeys });
-            queryClient.invalidateQueries({ queryKey: StarredProjectKeys });
         }
     })
 }

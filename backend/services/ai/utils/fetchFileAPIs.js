@@ -18,7 +18,7 @@ export const createFolder = async ({ projectId, parentId, folderName, userId }) 
                     "x-user_id": String(userId)
                 }
             });
-        return data;
+        return data.file;
     } catch (error) {
         throw new Error(error);
     }
@@ -39,7 +39,7 @@ export const createFile = async ({ projectId, parentId, fileName, userId, conten
                     "x-user_id": String(userId)
                 }
             });
-        return data;
+        return data.file;
     } catch (error) {
         throw new Error(error);
     }
@@ -61,7 +61,7 @@ export const updateFile = async ({ fileName, fileId, content, userId }) => {
                     "x-user_id": String(userId)
                 }
             });
-        return data;
+        return data.file;
     } catch (error) {
         throw new Error(error);
     }
@@ -101,7 +101,7 @@ export const getFileTree = async ({ projectId, userId }) => {
                     "x-user_id": String(userId)
                 }
             });
-        return data;
+        return data.file;
     } catch (error) {
         throw new Error(error);
     }

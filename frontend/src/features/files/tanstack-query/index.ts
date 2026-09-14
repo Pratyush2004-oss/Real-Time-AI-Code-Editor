@@ -19,13 +19,10 @@ export const useCreateRootFolderMutation = (): UseMutationResult<FileResponseTyp
             return response;
         },
         onSuccess: (data: FileResponseType) => {
-            toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: (data) => {
-            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         }
     })
 }
@@ -43,13 +40,10 @@ export const useCreateFolderMutation = (): UseMutationResult<FileResponseType, E
             return response;
         },
         onSuccess: (data: FileResponseType) => {
-            toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: (data) => {
-            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         }
     })
 }
@@ -67,13 +61,10 @@ export const useCreateFileMutation = (): UseMutationResult<FileResponseType, Err
             return response;
         },
         onSuccess: (data: FileResponseType) => {
-            toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: (data) => {
-            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         }
     })
 }
@@ -92,7 +83,6 @@ export const useUpdateFileMutation = (): UseMutationResult<FileResponseType, Err
         },
         onSuccess: (data: FileResponseType) => {
             queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
-            toast.success(data.message);
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -115,13 +105,10 @@ export const useDeleteFileMutation = (): UseMutationResult<FileResponseType, Err
         },
         onSuccess: (data: FileResponseType) => {
             toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
         },
         onError: (error: Error) => {
             toast.error(error.message);
-        },
-        onSettled: (data) => {
-            queryClient.invalidateQueries({ queryKey: fileTreeKeys(data?.file.projectId!) });
-
         }
     })
 }

@@ -12,6 +12,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", FileRouter);
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    process.env.NODE_ENV === "production" ? res.status(statusCode).json({ success: false, message: err.message }) :
+        res.status(statusCode).json({ message: err.message, stack: err.stack });
+});
 app.listen(process.env.FILE_PORT, () => {
     connectDB();
     console.log(`File service is running on port ${process.env.FILE_PORT}`);
