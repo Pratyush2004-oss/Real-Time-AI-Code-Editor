@@ -15,7 +15,7 @@ import { useFileDispatch, useFileSelector } from "../../files/store/hooks";
 import { setIsPreviewFullScreen, setShowPreview } from "../../files/store/file.slice";
 import { useGetFileTreeQuery } from "../../files/tanstack-query";
 import FullScreenPreview from "../../../components/project/FullScreenPreview";
-import Terminal from "../../../components/project/Editor/Terminal";
+import BottomPanel from "../../../components/project/Editor/BottomPanel";
 import AIChatSection from "../../../components/project/Editor/AIChatSection";
 
 const ProjectPage = () => {
@@ -25,7 +25,7 @@ const ProjectPage = () => {
   const fileOperationdispatch = useFileDispatch();
   const { showPreview, isPreviewFullScreen } = useFileSelector(state => state.fileOperations);
   const { data: project, isLoading, isError } = useGetSingleProjectInformationQuery(projectId!);
-  const [showExplorer, setShowExplorer] = useState(false);
+  const [showExplorer, setShowExplorer] = useState(true);
   const [showAichat, setShowAichat] = useState(false);
   const [showTerminal, setShowTerminal] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<"explorer" | "aichat" | "terminal" | "editor">("explorer");
@@ -126,7 +126,7 @@ const ProjectPage = () => {
           </AnimatePresence>
           {/* Terminal Section */}
           <AnimatePresence>
-            {showTerminal && <Terminal projectId={projectId!} setShowTerminal={setShowTerminal} />}
+            {showTerminal && <BottomPanel projectId={projectId!} setShowTerminal={setShowTerminal} />}
           </AnimatePresence>
         </div>
 

@@ -3,6 +3,7 @@ import { FiCode, FiEye } from "react-icons/fi";
 import { useProjectSelector } from "../../features/projects/store/hooks";
 import { useFileDispatch, useFileSelector } from "../../features/files/store/hooks";
 import { setShowPreview } from "../../features/files/store/file.slice";
+import { useNavigate } from "react-router-dom";
 interface TopBarProps {
 }
 
@@ -10,11 +11,12 @@ const TopBar = ({ }: TopBarProps) => {
     const { currentProject } = useProjectSelector(state => state.project);
     const dispatch = useFileDispatch();
     const { showPreview } = useFileSelector(state => state.fileOperations);
+    const navigate = useNavigate();
     return (
         <div className="relative flex h-12 items-center justify-between border-b border-white/6 bg-[#111113]/90 px-4 backdrop-blur-xl">
             {/* Left section */}
             <div className="flex items-center gap-3">
-                <div className="text-white bg-clip-text text-lg font-bold ">
+                <div className="text-white bg-clip-text text-lg font-bold cursor-pointer " onClick={() => navigate("/", { replace: true })}>
                     Vertex AI
                 </div>
                 <div className="h-4 w-px bg-white/10" />

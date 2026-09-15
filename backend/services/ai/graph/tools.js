@@ -101,6 +101,13 @@ export const fileTools = ({ projectId, userId }) => {
     // create folder tool
     const createFolderTool = tool(async ({ folderName, parentId }) => {
         console.log("ai tool-create_folder")
+        if (!parentId) {
+            return JSON.stringify({
+                success: false,
+                error: "parentId is required",
+                instruction: "Call get_tree and use the exact _id of the destination folder as parentId. Do not use null."
+            })
+        }
         const folder = await createFolder({ folderName, parentId, projectId, userId });
         return JSON.stringify({
             success: true,
@@ -126,13 +133,20 @@ export const fileTools = ({ projectId, userId }) => {
         `,
         schema: z.object({
             folderName: z.string(),
-            parentId: z.string().nullable()
+            parentId: z.string().min(1)
         })
     })
 
     // create file tool
     const createFileTool = tool(async ({ fileName, parentId, language, content }) => {
         console.log("ai tool-create_file")
+        if (!parentId) {
+            return JSON.stringify({
+                success: false,
+                error: "parentId is required",
+                instruction: "Call get_tree and use the exact _id of the destination folder as parentId. Do not use null."
+            })
+        }
         const file = await createFile({ fileName, parentId, projectId, userId, content, language: language || "plaintext" });
         return JSON.stringify({
             success: true,
@@ -166,7 +180,7 @@ export const fileTools = ({ projectId, userId }) => {
         `,
         schema: z.object({
             fileName: z.string(),
-            parentId: z.string(),
+            parentId: z.string().min(1),
             language: z.string().optional(),
             content: z.string()
         })

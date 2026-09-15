@@ -82,7 +82,7 @@ export const deleteFile = async ({ fileId, userId }) => {
                     "x-user_id": String(userId)
                 }
             });
-        return data;
+        return data.file;
     } catch (error) {
         throw new Error(error);
     }
@@ -101,7 +101,7 @@ export const getFileTree = async ({ projectId, userId }) => {
                     "x-user_id": String(userId)
                 }
             });
-        return data.file;
+        return data;
     } catch (error) {
         throw new Error(error);
     }
