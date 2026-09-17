@@ -94,7 +94,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                         >Confirm</button>
                     </motion.div>
                 ) : (
-                    <motion.button className='flex items-center gap-1 rounded-md px-1.5 text-xs text-zinc-300 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400 z-50'
+                    <motion.button className='flex items-center gap-1 rounded-md px-1.5 text-xs text-zinc-300 transition-opacity hover:text-red-500 group-hover:opacity-100 dark:text-zinc-600 dark:hover:text-red-400'
                         onClick={(e) => {
                             e.stopPropagation();
                             setisconfirmDelete(true)

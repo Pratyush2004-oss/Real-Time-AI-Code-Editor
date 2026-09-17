@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { FiCode, FiEye } from "react-icons/fi";
 import { useProjectSelector } from "../../features/projects/store/hooks";
 import { useFileDispatch, useFileSelector } from "../../features/files/store/hooks";
-import { setShowPreview } from "../../features/files/store/file.slice";
+import { clearState, setShowPreview } from "../../features/files/store/file.slice";
 import { useNavigate } from "react-router-dom";
 interface TopBarProps {
 }
@@ -16,7 +16,10 @@ const TopBar = ({ }: TopBarProps) => {
         <div className="relative flex h-12 items-center justify-between border-b border-white/6 bg-[#111113]/90 px-4 backdrop-blur-xl">
             {/* Left section */}
             <div className="flex items-center gap-3">
-                <div className="text-white bg-clip-text text-lg font-bold cursor-pointer " onClick={() => navigate("/", { replace: true })}>
+                <div className="text-white bg-clip-text text-lg font-bold cursor-pointer " onClick={() => {
+                    dispatch(clearState());
+                    navigate("/", { replace: true })
+                }}>
                     Vertex AI
                 </div>
                 <div className="h-4 w-px bg-white/10" />

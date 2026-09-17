@@ -35,9 +35,10 @@ const FileOperationSlice = createSlice({
             state.activeTab = action.payload
             state.openTabs = state.openTabs.map((tab) => tab._id === action.payload._id ? action.payload : tab);
         },
+        clearState: () => { return initialState }
     },
 })
 
-export const { setIsAddOpen, setRename, setIsDeleteOpen, setActiveTab, setIsPreviewFullScreen, setShowPreview, removeFileFromTab, updateActiveTabContent } = FileOperationSlice.actions;
+export const { setIsAddOpen, setRename, setIsDeleteOpen, setActiveTab, setIsPreviewFullScreen, setShowPreview, removeFileFromTab, updateActiveTabContent, clearState } = FileOperationSlice.actions;
 
 export default FileOperationSlice.reducer;

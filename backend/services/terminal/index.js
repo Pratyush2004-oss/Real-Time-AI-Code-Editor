@@ -3,7 +3,6 @@ import express from "express";
 import http from "http";
 import pty from "node-pty";
 import { Server } from "socket.io";
-import { connectDB } from "./config/db.js";
 import { syncProject } from "./utils/fileUtilities.js";
 import { normalizeColumns, normalizeRows } from "./utils/utilFn.js";
 dotenv.config();
@@ -140,6 +139,5 @@ app.use((err, req, res, next) => {
 });
 
 server.listen(process.env.TERMINAL_PORT, () => {
-    connectDB();
     console.log(`Terminal service is running on port ${process.env.TERMINAL_PORT}`);
 });

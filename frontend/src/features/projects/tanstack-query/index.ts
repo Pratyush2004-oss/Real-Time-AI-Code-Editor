@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { queryClient } from "../../../app/queryClient";
 import { createProjectService, deleteProjectService, getProjectByIdService, getProjectListService, getStarredProjectListService, toggleProjectStarService } from "../services/project.api.service";
 import type { CreateProjectInputType, ProjectResponseType, ProjectType } from "../types";
+import { useAuthSelector } from "../../auth/store/hooks";
 
 const ProjectSessionKeys = ["project", "session"] as const;
 const StarredProjectKeys = ["project", "starred"] as const;
@@ -35,6 +36,7 @@ export const useCreateProjectMutation = (): UseMutationResult<ProjectResponseTyp
  * @returns 
  */
 export const useGetProjectListQuery = (): UseQueryResult<ProjectType[], Error> => {
+    const { userData } = useAuthSelector(state => state.user);
     const cacheData = queryClient.getQueryData<ProjectType[]>(ProjectSessionKeys);
     return useQuery<ProjectType[], Error>({
         queryKey: ProjectSessionKeys,
@@ -44,6 +46,7 @@ export const useGetProjectListQuery = (): UseQueryResult<ProjectType[], Error> =
             return response;
         },
         initialData: cacheData,
+        enabled: !!userData,
         retry: false,
         refetchOnWindowFocus: false,
         staleTime: 1000 * 60 * 5
@@ -56,6 +59,7 @@ export const useGetProjectListQuery = (): UseQueryResult<ProjectType[], Error> =
  * @returns 
  */
 export const useGetStarredProjectListQuery = (): UseQueryResult<ProjectType[], Error> => {
+    const { userData } = useAuthSelector(state => state.user);
     const cacheData = queryClient.getQueryData<ProjectType[]>(StarredProjectKeys);
     return useQuery({
         queryKey: StarredProjectKeys,
@@ -64,6 +68,7 @@ export const useGetStarredProjectListQuery = (): UseQueryResult<ProjectType[], E
             if (typeof response === "string") throw new Error(response);
             return response;
         },
+        enabled: !!userData,
         initialData: cacheData,
         retry: false,
         refetchOnWindowFocus: false,

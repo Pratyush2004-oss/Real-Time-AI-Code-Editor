@@ -4,6 +4,7 @@ import ProtectedRoute from "./components/shared/ProtectedRoute";
 import DashboardPage from "./features/projects/pages/DashboardPage";
 import PublicRoute from "./components/shared/PublicRoute";
 import ProjectPage from "./features/projects/pages/ProjectPage";
+import PaymentPage from "./features/payment/pages/PaymentPage";
 
 const RootLayout = () => (
     <>
@@ -25,6 +26,10 @@ export const Router = createBrowserRouter([
                     {
                         path: "/project/:projectId",
                         element: <ProjectPage />
+                    },
+                    {
+                        path: "/plans",
+                        element: <PaymentPage />
                     }
                 ]
             },

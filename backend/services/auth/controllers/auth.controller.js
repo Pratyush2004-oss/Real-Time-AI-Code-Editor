@@ -43,8 +43,8 @@ export const login = asyncHandler(async (req, res, next) => {
 
         res.cookie("session", sessionId, {
             httpOnly: true,
-            sameSite: "strict",
-            secure: false,
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            secure: process.env.NODE_ENV === "production",
             maxAge: 60 * 60 * 24 * 7 * 1000     // 7 days
         });
 

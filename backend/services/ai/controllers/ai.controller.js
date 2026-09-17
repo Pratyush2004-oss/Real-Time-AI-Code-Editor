@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import { graph } from "../graph/graph.js";
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
+import { deductCredits } from "../utils/deductCredits.js";
 
 const buildHistory = (history) => {
     if (!Array.isArray(history)) {
@@ -77,6 +78,8 @@ export const chat = expressAsyncHandler(async (req, res, next) => {
             streamMode: "updates", recursionLimit: 40
         });
 
+        // deduct credits from user
+        await deductCredits(userId, 20);
         let finalMessage = "";
 
         for await (const chunk of stream) {

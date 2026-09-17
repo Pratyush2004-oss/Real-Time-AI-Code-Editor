@@ -27,6 +27,7 @@ app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL));
 app.use("/api/project", isAuth, setProxyHeader(process.env.PROJECT_SERVICE_URL));
 app.use("/api/file", isAuth, setProxyHeader(process.env.FILE_SERVICE_URL));
 app.use('/api/ai', isAuth, setProxyHeader(process.env.AI_SERVICE_URL));
+app.use('/api/payment', isAuth, setProxyHeader(process.env.PAYMENT_SERVICE_URL));
 app.get("/api/me", isAuth, getCurrentUser);
 
 app.listen(PORT, () => {
